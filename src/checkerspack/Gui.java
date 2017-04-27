@@ -26,7 +26,6 @@ public class Gui
         {
             int numRows = 8;
             int numCols = 8;
-            int position;
             frame.setSize(605,605);
             backBoard.setSize(500,600);
             frame.setTitle("Checkers");
@@ -34,31 +33,66 @@ public class Gui
             frame.setVisible(true);
             backBoard.setVisible(true);
 
+            String str;
+            str =   "1,0,1,0,1,0,1,0," +
+                    "0,1,0,1,0,1,0,1," +
+                    "1,0,0,0,1,0,1,0," +
+                    "0,0,0,1,0,0,0,0," +
+                    "0,0,0,0,2,0,0,0," +
+                    "0,2,0,2,0,0,0,2," +
+                    "2,0,2,0,2,0,2,0," +
+                    "0,2,0,2,0,2,0,2," ;
+            String[] splited = str.split(",");
+
             String type;
-            for(int r=0; r<numRows; r++){
-                for(int c=0; c<numCols; c++){
-                    //
-                    type = type_BLANK;
-                    if(c%2==0){
-                        if(r==0 || r==2) {
+
+//            for(int r=0; r<numRows; r++) {
+//                for (int c = 0; c < numCols; c++) {
+//                    //
+//
+//                    type = type_BLANK;
+//                    if (c % 2 == 0) {
+//                        if (r == 0 || r == 2) {
+//                            type = type_WHITE;
+//                        } else if (r == 6) {
+//                            type = type_BLACK;
+//                        }
+//                    } else {
+//                        if (r == 1) {
+//                            type = type_WHITE;
+//                        } else if (r == 5 || r == 7) {
+//                            type = type_BLACK;
+//                        }
+//                    }
+//                    backBoard.add(new BoardSquare(r, c, type));
+//
+//                }
+//            }
+                int[][] tab = new int[8][8];
+                int i = 0;
+                for(int r=0; r<numRows; r++){
+                    for(int c=0; c<numCols; c++){
+                        type = type_BLANK;
+                        tab[r][c] = Integer.parseInt(splited[i]);
+
+                        if (splited[i].equals("1")){
                             type = type_WHITE;
-                        }else if(r==6){
+                        }
+                        if(splited[i].equals("2")){
                             type = type_BLACK;
                         }
-                    }else{
-                        if(r==1){
-                            type = type_WHITE;
-                        } else if(r==5 || r==7) {
-                            type = type_BLACK;
-                        }
+                        i++;
+                        backBoard.add(new BoardSquare(r,c,type));
                     }
-                    backBoard.add(new BoardSquare(r,c,type));
                 }
-            }
+
 
             backBoard.repaint();
             frame.add(backBoard);
             frame.repaint();
+
+            String content = "Warcabiki pławiki wędka\n";
+            backBoard.add(new JTextArea(content));
 
 
         }
@@ -82,7 +116,7 @@ public class Gui
 
                 x = p;
                 y = q;
-                
+
                 if (type.equals(type_BLACK))
                 {
                     isBlack = true;
@@ -100,29 +134,50 @@ public class Gui
 
                 }
 
+
             }
             public void paintComponent(Graphics g)
             {
+                String ada;
+                int numRows = 8;
+                int numCols = 8;
                 Graphics2D g2 = (Graphics2D) g;
+                Graphics2D g3 = (Graphics2D) g;
                 Rectangle box = new Rectangle(x,y,width,height);
                 g2.draw(box);
+
                 g2.setPaint(Color.LIGHT_GRAY);
+
                 g2.fill(box);
+                g3.draw(box);
+                g3.fill(box);
+
                 int ovalWidth = width - 25;
                 int ovalHeight = height- 25;
+
+
                 if(isBlack)
                 {
                     g2.setColor(Color.black);
-                    g2.fillOval(x + (width - 25) / 4, y + (width - 25) / 4, ovalWidth, ovalHeight);
-                    g2.drawOval(x + (width - 25) / 4, y + (width - 25) / 4, ovalWidth, ovalHeight);
+                    g2.fillOval(x + (width - 25) / 4, y + (width - 25) / 8, ovalWidth, ovalHeight);
+                    g2.drawOval(x + (width - 25) / 4, y + (width - 25) / 8, ovalWidth, ovalHeight) ;
+
+                    g3.setColor(Color.darkGray);
+                    g3.fillOval(x + (width - 25) / 4, y + (width - 25) / 4, ovalWidth, ovalHeight);
+                    g3.drawOval(x + (width - 25) / 4, y + (width - 25) / 4, ovalWidth, ovalHeight) ;
                 }
 
                 else if(isRed)
                 {
+                    g3.setColor(Color.darkGray);
+                    g3.fillOval(x + (width - 25) / 4, y + (width - 25) / 8, ovalWidth, ovalHeight);
+                    g3.drawOval(x + (width - 25) / 4, y + (width - 25) / 8, ovalWidth, ovalHeight) ;
                     g2.setColor(Color.white);
                     g2.fillOval(x + (width - 25) / 4, y + (width - 25) / 4, ovalWidth, ovalHeight);
                     g2.drawOval(x + (width - 25) / 4, y + (width - 25) / 4, ovalWidth, ovalHeight);
+
                 }
+
 
             }
         }
